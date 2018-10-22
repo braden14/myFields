@@ -1,6 +1,8 @@
 import React,{Component} from "react";
 import './GeoLocation.css';
 
+//caleb was here -- test push
+
 export default class GeoLocation extends Component{
 
     //creates empty instance
