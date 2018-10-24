@@ -302,7 +302,7 @@ export default class LoginForm extends Component {
                     </div>
                     <button onClick={this.handleFbSignin}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
-                    <a onClick={this.handlefbFP}>Forgot Password?</a>
+                    <a onClick={this.handleFbFP}>Forgot Password?</a>
                     <div className="grass"></div>
                 </div>
             );
