@@ -272,7 +272,7 @@ export default class LoginForm extends Component {
           alert("Email has been sent");
         }).catch(function(error) {
             if(emailAddress == ""){
-                alert("Please enter Email adress");
+                alert("Please enter Email address");
             }
           switch(error.code){
               case "auth/user-not-found":
