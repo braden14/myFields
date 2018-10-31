@@ -45,7 +45,7 @@ export default class editReports extends Component {
         if(this.props.reportID){
             //Realtime database reference
             //firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
-            //Cloud Firestore Reference
+            //Cloud Firestore Reference UNTESTED
             firebase.firestore().collection('reports').get().then(function(snapshot){
                var report = snapshot.val();
 
@@ -191,13 +191,17 @@ export default class editReports extends Component {
             sevr: state.sevr,
       }
 
+      //change this?
       updates['users/' + uid + '/reports/' + fid] = true;
+      //change this
       firebase.database().ref().update(updates).then(()=>{
 
         photos.forEach((imageURL, index) => {
             firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-                //(imageURL);
+                //(imageURL) for the realtime database
                 firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
+                //image push using firestore?
+                
             })
         });
 
