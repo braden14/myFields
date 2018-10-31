@@ -43,7 +43,10 @@ export default class editReports extends Component {
     // pull existing data into report being edited
     componentWillMount() {
         if(this.props.reportID){
-            firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
+            //Realtime database reference
+            //firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
+            //Cloud Firestore Reference
+            firebase.firestore().collection('reports').get().then(function(snapshot){
                var report = snapshot.val();
 
                if(this.state.image){
