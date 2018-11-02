@@ -96,18 +96,34 @@ export default class Reports extends Component {
         });
         if(valid){
             var fid = firebase.database().ref('reports/').push().key;
+            //var fid;
+            //var temp = firebase.firestore().collection('reports').doc().set({crop:''}).then(function(docRef) {
+              //var fid = docRef.id;
+            //});
+            //var fid = temp.getKey();
             var photos = this.state.images;
             var uid = firebase.auth().currentUser.uid;
             var state = this.state;
-            firebase.database().ref('users/' + uid).once('value').then((snapshot) => { //Inside the users tree in the database...
-                var user = snapshot.val();
+            //firebase.database().ref('users/' + uid).once('value').then((snapshot) => { //Inside the users tree in the database...
+            firebase.firestore().collection('users').doc(uid).get().then((snapshot) => {
+              var user = snapshot.data()
+              console.log(uid);
+
+                //var user = snapshot;
+                //var reportCount = 0;
+                //if(user.reports) reportCount = Object.keys(user.reports).length; //Get the last spot
                 var reportCount = 0;
-                if(user.reports) reportCount = Object.keys(user.reports).length; //Get the last spot
+                if(user.reports) reportCount = Object.keys(user.reports).length;
+                console.log(reportCount);
+                //firebase.firestore().collection('users').doc(uid).collection('reportIDs').get().then((snapshot) => {
+                    //reportCount = snapshot.size
+                //});
+                console.log(user);
+                var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1))); //Report name
 
-                 var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1))); //Report name
-
-                  var updates = {}
-                  updates['reports/' + fid] = { //Populate report
+                //var updates = {}
+                //updates['reports/' + fid] = { //Populate report
+                firebase.firestore().collection("reports").doc(fid).set({
                         crop: state.crop,
                         location: state.location,
                         gs: state.gs,
@@ -118,22 +134,25 @@ export default class Reports extends Component {
                         name: rName,
                         dist: state.dist,
                         sevr: state.sevr
-                      }
-                    updates['users/' + uid + '/reports/' + fid + '/'] = true;
-                    firebase.database().ref().update(updates).then(() => { //Handle uploading the images, if any
-                        photos.forEach((imageURL, index) => {
-                            firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
+                      })
+                  firebase.firestore().collection('users').doc(uid).collection('reportIDs').doc(fid).set({name: fid})
+                  //updates['users/' + uid + '/reports/' + fid + '/'] = true;
+                  //firebase.database().ref().update(updates).then(() => { //Handle uploading the images, if any
+                  Promise.all(photos.map((imageURL, index) => {
+                      return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
                                 //(imageURL);
-                                firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
-                            })
-                        });
+                          //firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
+                          return firebase.firestore().collection('reports').doc(fid).set({
+                            images: snapshot.downloadURL
+                          })
+                        })
+                      //});
 
-                    }).then(() => {
-                      window.location.hash = "/";
-                    }).catch(err => console.error(err));
+                    })).then(() => {
+                        window.location.hash = "/";
+                    }).catch(err => console.error(err))
                });
         }
-
     }
 
     //Buttons Selection for the Severity and Distribution radio buttons.
