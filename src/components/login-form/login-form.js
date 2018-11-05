@@ -136,6 +136,7 @@ export default class LoginForm extends Component {
             lName: this.state.lName,
             state: this.state.state,
             county: this.state.county,
+            reports: []
           }).catch(err => console.error(err));
         })
         .catch((err) => {

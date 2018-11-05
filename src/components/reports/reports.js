@@ -18,7 +18,7 @@ export default class Reports extends Component {
         this.state = {
             crop: '',         //Crop for report form
             gs: '',           //Growth Stage
-            location: {},     //Location, using GeoLocation
+            // location: {},     //Location, using GeoLocation
             images: [],       //Optional of one or two images
             pest: '',         //Pest that is effecting the crop
             notes: '',        //Extra notes
@@ -95,34 +95,25 @@ export default class Reports extends Component {
             required: require
         });
         if(valid){
+
+            // grab random id string
             var fid = firebase.database().ref('reports/').push().key;
-            //var fid;
-            //var temp = firebase.firestore().collection('reports').doc().set({crop:''}).then(function(docRef) {
-              //var fid = docRef.id;
-            //});
-            //var fid = temp.getKey();
             var photos = this.state.images;
             var uid = firebase.auth().currentUser.uid;
             var state = this.state;
-            //firebase.database().ref('users/' + uid).once('value').then((snapshot) => { //Inside the users tree in the database...
+
+            // get user snapshot from db
             firebase.firestore().collection('users').doc(uid).get().then((snapshot) => {
               var user = snapshot.data()
-              console.log(uid);
 
-                //var user = snapshot;
-                //var reportCount = 0;
-                //if(user.reports) reportCount = Object.keys(user.reports).length; //Get the last spot
+                // get # of reports for naming
                 var reportCount = 0;
                 if(user.reports) reportCount = Object.keys(user.reports).length;
                 console.log(reportCount);
-                //firebase.firestore().collection('users').doc(uid).collection('reportIDs').get().then((snapshot) => {
-                    //reportCount = snapshot.size
-                //});
                 console.log(user);
-                var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1))); //Report name
+                var rName= user.fName.concat(" " + user.lName.concat(" " + (reportCount+1))); //Report name
 
-                //var updates = {}
-                //updates['reports/' + fid] = { //Populate report
+                // set data
                 firebase.firestore().collection("reports").doc(fid).set({
                         crop: state.crop,
                         location: state.location,
@@ -135,19 +126,19 @@ export default class Reports extends Component {
                         dist: state.dist,
                         sevr: state.sevr
                       })
-                  firebase.firestore().collection('users').doc(uid).collection('reportIDs').doc(fid).set({name: fid})
-                  //updates['users/' + uid + '/reports/' + fid + '/'] = true;
-                  //firebase.database().ref().update(updates).then(() => { //Handle uploading the images, if any
+                  var tempReports = user.reports;
+                  tempReports.push(fid);
+                  firebase.firestore().collection('users').doc(uid).update({
+                    reports: tempReports
+                  });
+                  //Set Images
                   Promise.all(photos.map((imageURL, index) => {
                       return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
-                                //(imageURL);
-                          //firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
-                          return firebase.firestore().collection('reports').doc(fid).set({
+                          return firebase.firestore().collection('reports').doc(fid).update({
                             images: snapshot.downloadURL
                           })
                         })
-                      //});
-
+                                      
                     })).then(() => {
                         window.location.hash = "/";
                     }).catch(err => console.error(err))
