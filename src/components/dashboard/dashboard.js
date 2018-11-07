@@ -16,22 +16,28 @@ export default class Dashboard extends Component {
                      }
     }
 
-    // populate reports ro be used in render
+    // populate reports to be used in render
     componentWillMount() {
         var uid = firebase.auth().currentUser.uid;
 
-        firebase.database().ref(`/users/${uid}/reports`).once('value').then((snapshot) => {
-          var rids = snapshot.val();
+        // get user from firestore
+        firebase.firestore().collection('users').doc(uid).get().then((snapshot) => {
+          var user = snapshot.data();
+          var rids = user.reports;
 
+          // populate reports in array
           var promises = [];
           for(var key in rids) {
             promises.push(
-              firebase.database().ref(`reports/${key}`).once('value')
+              firebase.firestore().collection('reports').doc(rids[key]).get()
+
             );
           }
+
+          // process to load in dashboard
           Promise.all(promises).then(snapshots => {
             var reports = snapshots.map(snapshot => {
-              var report = snapshot.val();
+              var report = snapshot.data();
               report.url = '/reports/' + snapshot.key;
               return report;
             });
