@@ -31,8 +31,10 @@ export default class showReport extends Component {
     componentWillMount() {
 
         if(this.props.reportID){
-            firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
-               var report = snapshot.val();
+            console.log(this.props.reportID) // this.props.reportID is not assigned correctly in dashboard
+            //firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
+            firebase.firestore().collection('reports').doc(this.props.reportID).get().then((snapshot) => {
+               var report = snapshot.data();
                 this.setState({
                     reportName: report.name,
                     location: report.location,

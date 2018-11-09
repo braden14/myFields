@@ -124,7 +124,8 @@ export default class Reports extends Component {
                         owner: uid,
                         name: rName,
                         dist: state.dist,
-                        sevr: state.sevr
+                        sevr: state.sevr,
+                        appID: "myFields"
                       })
                   var tempReports = user.reports;
                   tempReports.push(fid);
@@ -138,7 +139,7 @@ export default class Reports extends Component {
                             images: snapshot.downloadURL
                           })
                         })
-                                      
+
                     })).then(() => {
                         window.location.hash = "/";
                     }).catch(err => console.error(err))

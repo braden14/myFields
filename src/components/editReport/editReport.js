@@ -46,8 +46,8 @@ export default class editReports extends Component {
             //Realtime database reference
             //firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
             //Cloud Firestore Reference UNTESTED
-            firebase.firestore().collection('reports').get().then(function(snapshot){
-               var report = snapshot.val();
+            firebase.firestore().collection('reports').doc(this.props.reportID).get().then(function(snapshot){
+               var report = snapshot.data();
 
                if(this.state.image){
                   this.setState({
@@ -201,7 +201,7 @@ export default class editReports extends Component {
                 //(imageURL) for the realtime database
                 firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
                 //image push using firestore?
-                
+
             })
         });
 

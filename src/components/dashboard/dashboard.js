@@ -30,7 +30,6 @@ export default class Dashboard extends Component {
           for(var key in rids) {
             promises.push(
               firebase.firestore().collection('reports').doc(rids[key]).get()
-
             );
           }
 
@@ -40,7 +39,7 @@ export default class Dashboard extends Component {
               var report = snapshot.data();
               report.url = '/reports/' + snapshot.key;
               return report;
-            });
+            }).filter(report => report.appID === "myFields");
             this.setState({reports: reports});
           });
         });
