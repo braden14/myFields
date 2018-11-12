@@ -35,6 +35,7 @@ export default class showReport extends Component {
             //firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
             firebase.firestore().collection('reports').doc(this.props.reportID).get().then((snapshot) => {
                var report = snapshot.data();
+               console.log(report);
                 this.setState({
                     reportName: report.name,
                     location: report.location,

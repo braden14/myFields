@@ -27,17 +27,21 @@ export default class Dashboard extends Component {
 
           // populate reports in array
           var promises = [];
+          var keys = []
+          var i = 0;
           for(var key in rids) {
             promises.push(
               firebase.firestore().collection('reports').doc(rids[key]).get()
             );
+            keys.push(rids[key])
           }
 
           // process to load in dashboard
           Promise.all(promises).then(snapshots => {
             var reports = snapshots.map(snapshot => {
               var report = snapshot.data();
-              report.url = '/reports/' + snapshot.key;
+              report.url = '/reports/' + keys[i];
+              i++;
               return report;
             }).filter(report => report.appID === "myFields");
             this.setState({reports: reports});
