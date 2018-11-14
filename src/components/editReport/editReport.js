@@ -177,8 +177,9 @@ export default class editReports extends Component {
       var uid = firebase.auth().currentUser.uid;
       var fid = this.props.reportID;
       var state = this.state;
-      var updates = {}
-      updates['reports/' + fid] = {
+      //  var updates = {}
+      //updates['reports/' + fid] = {
+      firebase.firestore().collection('reports').doc(fid).update({
             crop: state.crop,
             gs: state.gs,
             pest: state.pest,
@@ -189,12 +190,12 @@ export default class editReports extends Component {
             location: state.location,
             dist: state.dist,
             sevr: state.sevr,
-      }
+      })
 
       //change this?
-      updates['users/' + uid + '/reports/' + fid] = true;
+      //updates['users/' + uid + '/reports/' + fid] = true;
       //change this
-      firebase.database().ref().update(updates).then(()=>{
+      //firebase.database().ref().update(updates).then(()=>{
 
         photos.forEach((imageURL, index) => {
             firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
@@ -205,7 +206,7 @@ export default class editReports extends Component {
             })
         });
 
-      }).then(()=>{window.location= "/#";}).catch(err => console.error(err));
+      //}).then(()=>{window.location= "/#";}).catch(err => console.error(err));
 
       //window.location= "/#/reports/"+fid;
 
