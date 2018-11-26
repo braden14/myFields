@@ -134,17 +134,18 @@ export default class Reports extends Component {
                   });
                   //Set Images
                   Promise.all(photos.map((imageURL, index) => {
-                      return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
-                          return firebase.firestore().collection('reports').doc(fid).update({
-                            images: snapshot.downloadURL
-                          })
-                        })
-
-                    })).then(() => {
+                    return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
+                        return snapshot.downloadURL;
+                      })
+                    })).then((imageURLS) => {
+                      return firebase.firestore().collection('reports').doc(fid).update({
+                        images: imageURLS
+                      })
+                    }).then(() => {
                         window.location.hash = "/";
                     }).catch(err => console.error(err))
-               });
-        }
+                })
+          }       
     }
 
     //Buttons Selection for the Severity and Distribution radio buttons.
