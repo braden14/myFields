@@ -18,7 +18,7 @@ export default class Reports extends Component {
         this.state = {
             crop: '',         //Crop for report form
             gs: '',           //Growth Stage
-            // location: {},     //Location, using GeoLocation
+            location: {},     //Location, using GeoLocation
             images: [],       //Optional of one or two images
             pest: '',         //Pest that is effecting the crop
             notes: '',        //Extra notes
