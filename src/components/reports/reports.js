@@ -145,7 +145,7 @@ export default class Reports extends Component {
                         window.location.hash = "/";
                     }).catch(err => console.error(err))
                 })
-          }       
+          }
     }
 
     //Buttons Selection for the Severity and Distribution radio buttons.

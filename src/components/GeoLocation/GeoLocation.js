@@ -48,10 +48,10 @@ export default class GeoLocation extends Component{
           {this.state.errorMessage}
           <pre>
             <div className="left-direction">
-            latitude: {this.props.latitude || ''} //this.props.location
+            latitude: {'is this even working'}// {this.props.location.latitude || 'test'}
             </div>
             <div className="right-direction">
-            longitude: {this.props.longitude || ''} //this.props.location
+            longitude: {this.props.location.longitude || 'test'}
             </div>
           </pre>
           <button onClick={this.getCurrentLocation}>Calculate Position</button>
