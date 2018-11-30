@@ -196,15 +196,19 @@ export default class editReports extends Component {
       //updates['users/' + uid + '/reports/' + fid] = true;
       //change this
       //firebase.database().ref().update(updates).then(()=>{
+      Promise.all(photos.map((imageURL, index) => {
+        return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
+            return snapshot.downloadURL;
+          })
+        })).then((imageURLS) => {
+          return firebase.firestore().collection('reports').doc(fid).update({
+            images: imageURLS
+          })
+        }).then(() => {
+            window.location.hash = "/";
+        }).catch(err => console.error(err))
 
-        photos.forEach((imageURL, index) => {
-            firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-                //(imageURL) for the realtime database
-                firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
-                //image push using firestore?
-
-            })
-        });
+        
 
       //}).then(()=>{window.location= "/#";}).catch(err => console.error(err));
 
@@ -241,7 +245,7 @@ export default class editReports extends Component {
 
         var imgUpload="";
         var imgUpload2="";
-        if(!this.state.images){
+        if(this.state.images === undefined || this.state.images.length === 0){
           var imgUpload = <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>;
           var imgUpload2 = <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>;
         }
