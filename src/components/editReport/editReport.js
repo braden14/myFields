@@ -48,7 +48,6 @@ export default class editReports extends Component {
             //Cloud Firestore Reference UNTESTED
             firebase.firestore().collection('reports').doc(this.props.reportID).get().then((snapshot)=> {
                var report = snapshot.data();
-              console.log(report)
                if(this.state.image){
                   this.setState({
                       reportID: this.props.reportID,
@@ -77,9 +76,9 @@ export default class editReports extends Component {
                       sevr: report.sevr
                   });
                 }
-
+                console.log(report.pest)
+                console.log(this.state.pest)
             });
-
         }
 
         if(this.state.dist='uniform'){
@@ -196,19 +195,25 @@ export default class editReports extends Component {
       //updates['users/' + uid + '/reports/' + fid] = true;
       //change this
       //firebase.database().ref().update(updates).then(()=>{
-      Promise.all(photos.map((imageURL, index) => {
-        return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
-            return snapshot.downloadURL;
-          })
-        })).then((imageURLS) => {
-          return firebase.firestore().collection('reports').doc(fid).update({
-            images: imageURLS
-          })
-        }).then(() => {
-            window.location.hash = "/";
-        }).catch(err => console.error(err))
 
-        
+      if(photos.length != 0)
+      {
+        Promise.all(photos.map((imageURL, index) => {
+          return firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then((snapshot) => {
+              return snapshot.downloadURL;
+            })
+          })).then((imageURLS) => {
+            return firebase.firestore().collection('reports').doc(fid).update({
+              images: imageURLS
+            })
+          }).then(() => {
+              window.location.hash = "/";
+          }).catch(err => console.error(err))
+      }
+      else {
+        window.location.hash = "/";
+      }
+
 
       //}).then(()=>{window.location= "/#";}).catch(err => console.error(err));
 
@@ -255,7 +260,7 @@ export default class editReports extends Component {
 
         if(this.state.crop){
           var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops}/>
-          var pSelect = <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops}/>
+          var pSelect = <PestSelect onChange={(term => this.handleSelect('pest', term))} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops}/>
         }else{
           gsSelect = null
           pSelect = null
