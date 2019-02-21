@@ -76,27 +76,28 @@ export default class editReports extends Component {
                       sevr: report.sevr
                   });
                 }
-                console.log(report.pest)
-                console.log(this.state.pest)
+                //console.log(report.pest)
+                //console.log(this.state.pest)
+                var distTemp = this.state.dist;
+                console.log("DIST: " + distTemp);
+                if(distTemp === 'Uniform'){
+                  this.handleButtonSelection("distribution", "distribution-uniform")
+                }else if(distTemp === 'Patchy') {
+                  this.handleButtonSelection("distribution", "distribution-patchy")
+                }
+
+                var sevrTemp = this.state.sevr;
+                console.log("SVR: " + sevrTemp);
+                if(sevrTemp === 'Low'){
+                  this.handleButtonSelection("severity", "severity-low")
+                } else if(sevrTemp === 'Medium'){
+                  this.handleButtonSelection("severity", "severity-medium")
+                }else if (sevrTemp === 'High'){
+                  this.handleButtonSelection("severity", "severity-high")
+                }
             });
         }
-
-        if(this.state.dist='uniform'){
-          this.handleButtonSelection("distribution", "distribution-uniform")
-        }else{
-          this.handleButtonSelection("distribution", "distribution-patchy")
-        }
-
-        if(this.state.sevr = 'Low'){
-          this.handleButtonSelection("severity", "severity-low")
-        } else if(this.state.sevr = 'Medium'){
-          this.handleButtonSelection("severity", "severity-medium")
-        }else{
-          this.handleButtonSelection("severity", "severity-high")
-        }
-
     }
-
 
     //Change state values with whatever was entered. if crop is the name, crop value will be changed.
     handleChange(event) {
@@ -259,11 +260,11 @@ export default class editReports extends Component {
 
 
         if(this.state.crop){
-          var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops}/>
-          var pSelect = <PestSelect onChange={(term => this.handleSelect('pest', term))} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops}/>
+          var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops}/>;
+          var pSelect = <PestSelect onChange={(term => this.handleSelect('pest', term))} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops}/>;
         }else{
-          gsSelect = null
-          pSelect = null
+          gsSelect = null;
+          pSelect = null;
         }
 
         return(

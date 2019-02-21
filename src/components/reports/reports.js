@@ -111,8 +111,14 @@ export default class Reports extends Component {
                 if(user.reports) reportCount = Object.keys(user.reports).length;
                 console.log(reportCount);
                 console.log(user);
-                var rName= user.fName.concat(" " + user.lName.concat(" " + (reportCount+1))); //Report name
-
+                var rName;
+                if(user.fName != null) {
+                  rName = user.fName.concat(" " + user.lName.concat(" " + (reportCount+1))); //Report name
+                }
+                else {
+                  // When users are made on other apps they may not store fName and lName
+                  rName = "Report " + (reportCount+1);
+                }
                 // set data
                 firebase.firestore().collection("reports").doc(fid).set({
                         crop: state.crop,
