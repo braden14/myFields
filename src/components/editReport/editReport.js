@@ -76,10 +76,9 @@ export default class editReports extends Component {
                       sevr: report.sevr
                   });
                 }
-                //console.log(report.pest)
-                //console.log(this.state.pest)
+                console.log(report.pest);
+                console.log(this.state.pest);
                 var distTemp = this.state.dist;
-                console.log("DIST: " + distTemp);
                 if(distTemp === 'Uniform'){
                   this.handleButtonSelection("distribution", "distribution-uniform")
                 }else if(distTemp === 'Patchy') {
@@ -87,7 +86,6 @@ export default class editReports extends Component {
                 }
 
                 var sevrTemp = this.state.sevr;
-                console.log("SVR: " + sevrTemp);
                 if(sevrTemp === 'Low'){
                   this.handleButtonSelection("severity", "severity-low")
                 } else if(sevrTemp === 'Medium'){
