@@ -23,14 +23,11 @@ fs.readFile('./scripts/seeds/pests.csv', 'utf-8', function(err, data) {
     if(err) return console.error(err);
 
     var lines = data.split('\r')
-    console.log(lines);
 
     for(var i = 0; i < lines.length; i++) {
         var pest = lines[i].split(',');
         // 0 pest type 1 crop type 2 name
         firebase.database().ref('/crops').child(keyify(pest[1])).child(keyify(pest[0])).child(keyify(pest[2])).set({name: pest[2]});
-        //firebase.database().ref('/test').child(keyify('testy' + i)).child(keyify('testo' + i)).child(keyify('bittest'+i)).set({name: 'bittest'+i}); test
-        //firebase.firestore().collection("crops")
     }
-    
+
 });

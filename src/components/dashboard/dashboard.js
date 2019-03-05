@@ -19,13 +19,10 @@ export default class Dashboard extends Component {
     // populate reports to be used in render
     componentWillMount() {
         var uid = firebase.auth().currentUser.uid;
-
-        // get user from firestore
         firebase.firestore().collection('users').doc(uid).get().then((snapshot) => {
           var user = snapshot.data();
           var rids = user.reports;
 
-          // populate reports in array
           var promises = [];
           var keys = []
           var i = 0;
@@ -36,7 +33,6 @@ export default class Dashboard extends Component {
             keys.push(rids[key])
           }
 
-          // process to load in dashboard
           Promise.all(promises).then(snapshots => {
             var reports = snapshots.map(snapshot => {
               var report = snapshot.data();
@@ -49,7 +45,6 @@ export default class Dashboard extends Component {
         });
     }
 
-    // populate dashoboard with reports and new report button
     render(){
         var reps = this.state.reports.reverse();
         var reports = reps.map((item) =>{

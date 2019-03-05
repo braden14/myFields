@@ -43,9 +43,6 @@ export default class editReports extends Component {
     // pull existing data into report being edited
     componentWillMount() {
         if(this.props.reportID){
-            //Realtime database reference
-            //firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
-            //Cloud Firestore Reference UNTESTED
             firebase.firestore().collection('reports').doc(this.props.reportID).get().then((snapshot)=> {
                var report = snapshot.data();
                if(this.state.image){
@@ -76,8 +73,6 @@ export default class editReports extends Component {
                       sevr: report.sevr
                   });
                 }
-                console.log(report.pest);
-                console.log(this.state.pest);
                 var distTemp = this.state.dist;
                 if(distTemp === 'Uniform'){
                   this.handleButtonSelection("distribution", "distribution-uniform")
@@ -114,10 +109,6 @@ export default class editReports extends Component {
     handleButtonSelection(category, id){
         switch (category) {
           case "severity":
-            //document.getElementById("severity-low").style.border = "none";
-            //document.getElementById("severity-medium").style.border = "none";
-            //document.getElementById("severity-high").style.border = "none";
-            //document.getElementById(id).style.border = "5px solid white";
             switch(id){
               case "severity-low":
                 this.setState({
@@ -175,8 +166,6 @@ export default class editReports extends Component {
       var uid = firebase.auth().currentUser.uid;
       var fid = this.props.reportID;
       var state = this.state;
-      //  var updates = {}
-      //updates['reports/' + fid] = {
       firebase.firestore().collection('reports').doc(fid).update({
             crop: state.crop,
             gs: state.gs,
@@ -190,10 +179,6 @@ export default class editReports extends Component {
             sevr: state.sevr,
       })
 
-      //change this?
-      //updates['users/' + uid + '/reports/' + fid] = true;
-      //change this
-      //firebase.database().ref().update(updates).then(()=>{
 
       if(photos.length != 0)
       {
@@ -212,12 +197,6 @@ export default class editReports extends Component {
       else {
         window.location.hash = "/";
       }
-
-
-      //}).then(()=>{window.location= "/#";}).catch(err => console.error(err));
-
-      //window.location= "/#/reports/"+fid;
-
     }
 
 
@@ -258,8 +237,8 @@ export default class editReports extends Component {
 
 
         if(this.state.crop){
-          var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops}/>;
-          var pSelect = <PestSelect onChange={(term => this.handleSelect('pest', term))} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops}/>;
+          var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops} />;
+          var pSelect = <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops} />;
         }else{
           gsSelect = null;
           pSelect = null;

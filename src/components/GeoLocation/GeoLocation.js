@@ -21,9 +21,7 @@ export default class GeoLocation extends Component{
     getCurrentLocation(){
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log(position);
                 fetch('https://geo.fcc.gov/api/census/area?lat='+position.coords.latitude+'&lon='+position.coords.longitude+'&format=json').then((res)=> res.json()).then((data) => {
-                    console.log(data.results)
                     if(data.results.length == 0){
                         return this.setState({errorMessage: "Location not found."});
                     }

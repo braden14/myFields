@@ -26,7 +26,6 @@ export default class LocationInput extends Component {
         this.setState({
             [event.target.name]: event.target.value
         }, () => {
-        console.log(this.state.county + ", " + this.state.state);
         this.props.onChange({
                         county: this.state.county,
                         state: this.state.state,

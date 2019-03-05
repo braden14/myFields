@@ -109,8 +109,6 @@ export default class Reports extends Component {
                 // get # of reports for naming
                 var reportCount = 0;
                 if(user.reports) reportCount = Object.keys(user.reports).length;
-                console.log(reportCount);
-                console.log(user);
                 var rName;
                 if(user.fName != null) {
                   rName = user.fName.concat(" " + user.lName.concat(" " + (reportCount+1))); //Report name
@@ -158,10 +156,6 @@ export default class Reports extends Component {
     handleButtonSelection(category, id){
         switch (category) {
           case "severity":
-            //document.getElementById("severity-low").style.border = "none";
-            //document.getElementById("severity-medium").style.border = "none";
-            //document.getElementById("severity-high").style.border = "none";
-            //document.getElementById(id).style.border = "5px solid white";
             switch(id){
               case "severity-low":
                 this.setState({

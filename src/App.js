@@ -40,8 +40,6 @@ class App extends Component {
       var crops = {};
       db.collection("data").doc("crops").get().then((snapshot)=>{
         this.setState({crops: snapshot.data(), ready: true});
-        console.log(snapshot.data());
-        console.log(this.state.crops)
       });
   }
 

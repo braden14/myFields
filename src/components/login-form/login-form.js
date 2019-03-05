@@ -129,7 +129,6 @@ export default class LoginForm extends Component {
         // Helper function to write created user to the database
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((firebaseUser) => {
-          //firebase.database().ref('users/').child(firebaseUser.uid).set({
           firebase.firestore().collection("users").doc(firebaseUser.uid).set({
             email: this.state.email,
             fName: this.state.fName,
@@ -203,8 +202,6 @@ export default class LoginForm extends Component {
                         email: this.state.email,
                         fName: this.state.fName,
                         lName: this.state.lName
-                        //state: this.state.state,
-                        //county: this.state.county,
                       }).catch(err => console.error(err));
                     }
                 }.bind(this))

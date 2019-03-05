@@ -46,7 +46,7 @@ export default class PestSelect extends Component{
             );
         }
         return ( //Render the sugglist
-            <select defaultValue='' value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
+            <select defaultValue='' value={this.props.value} onChange={(event)=>this.props.onChange(event.target.value)}>
               <option disabled value=''>Select a Pest</option>
               {options}
             </select>
