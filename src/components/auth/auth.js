@@ -1,3 +1,9 @@
+//
+// Kansas State University Extension Platform
+// myFields Reporter Application
+// Copyright Kansas State University 2019 All Rights Reserved
+//
+
 import React, {Component} from 'react';
 import './auth.css';
 import * as firebase from 'firebase';

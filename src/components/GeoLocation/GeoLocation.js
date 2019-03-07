@@ -1,8 +1,11 @@
+//
+// Kansas State University Extension Platform
+// myFields Reporter Application
+// Copyright Kansas State University 2019 All Rights Reserved
+//
+
 import React,{Component} from "react";
 import './GeoLocation.css';
-
-//caleb was here -- test push
-// braden was here -- test push
 
 export default class GeoLocation extends Component{
 

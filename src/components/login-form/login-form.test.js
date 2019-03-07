@@ -1,11 +1,16 @@
-// login-form.test.js
+//
+// Kansas State University Extension Platform
+// myFields Reporter Application
+// Copyright Kansas State University 2019 All Rights Reserved
+//
+
 import React from 'react';
 import LoginForm from './login-form';
 import renderer from 'react-test-renderer';
 import * as firebase from 'firebase';
 import FirebaseServer from 'firebase-server';
 
- 
+
   var config = {
       apiKey: "AIzaSyAHaFwzXQfOCzLRc61T7buHYtfMucIkwF8",
       authDomain: "myfields-researcher.firebaseapp.com",

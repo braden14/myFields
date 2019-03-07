@@ -1,4 +1,8 @@
-//this is the component that the "auth" component renders when a user is not authorized
+//
+// Kansas State University Extension Platform
+// myFields Reporter Application
+// Copyright Kansas State University 2019 All Rights Reserved
+//
 
 import React, {Component} from 'react';
 import './login-form.css';

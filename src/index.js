@@ -1,3 +1,10 @@
+//
+// Kansas State University Extension Platform
+// myFields Reporter Application
+// Copyright Kansas State University 2019 All Rights Reserved
+//
+
+
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
